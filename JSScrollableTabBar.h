@@ -36,9 +36,7 @@ typedef enum {
 	UIImageView *_background;
 	UIImageView *_fadeLeft;
 	UIImageView *_fadeRight;
-	
-	JSTabButton *_previouslySelectedTabButton;
-	
+		
 	id <JSScrollableTabBarDelegate> _delegate;
 }
 
@@ -47,5 +45,6 @@ typedef enum {
 
 - (id)initWithFrame:(CGRect)frame style:(JSScrollableTabBarStyle)style;
 - (void)setTabItems:(NSArray *)tabItems;
+- (void)clearTabItems;
 
 @end

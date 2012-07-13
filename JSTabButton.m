@@ -25,13 +25,13 @@
 	if (!normalButton)
 	{
 		NSLog(@"setting normal button");
-		normalButton = [[UIImage imageWithContentsOfResolutionIndependentFile:[imageBundle pathForResource:@"tabButtonNormal" ofType:@"png"]] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		normalButton = [[UIImage imageWithContentsOfResolutionIndependentFile:[imageBundle pathForResource:@"tabButtonHighlighted" ofType:@"png"]] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
 	}
 	
 	if (!highlightedButton)
 	{
 		NSLog(@"setting Highlighted button");
-		highlightedButton = [[UIImage imageWithContentsOfResolutionIndependentFile:[imageBundle pathForResource:@"tabButtonHighlighted" ofType:@"png"]] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		highlightedButton = [[UIImage imageWithContentsOfResolutionIndependentFile:[imageBundle pathForResource:@"tabButtonNormal" ofType:@"png"]] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
 	}
 	
 	JSTabButton *button = (JSTabButton *)[self buttonWithType:UIButtonTypeCustom];
@@ -41,9 +41,14 @@
     [button setTitleColor:textColor forState:UIControlStateApplication];
     [button setTitleColor:textColor forState:UIControlStateHighlighted];
     
-    [button setBackgroundColor:color];
 	[[button titleLabel] setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
 	[button setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [button setBackgroundImage:normalButton forState:UIControlStateNormal];
+    [button setBackgroundImage:highlightedButton forState:UIControlStateHighlighted];
+    
+    button.highlightedBg = highlightedButton;
+    button.normalBg = normalButton;
     
 	[[button titleLabel] setLineBreakMode:UILineBreakModeTailTruncation];
 	
@@ -67,12 +72,10 @@
 	if (_toggled)
 	{
 		[self setBackgroundImage:self.highlightedBg forState:UIControlStateNormal];
-		[self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	}
 	else
 	{
 		[self setBackgroundImage:self.normalBg forState:UIControlStateNormal];
-		[self setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 	}
 }
 

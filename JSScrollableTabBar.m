@@ -11,6 +11,8 @@
 
 @interface JSScrollableTabBar ()
 
+@property (nonatomic, retain) JSTabButton *previouslySelectedTabButton;
+
 - (void)layoutTabs;
 - (void)updateFaders;
 - (void)tabSelected:(id)sender;
@@ -23,6 +25,7 @@
 
 @synthesize style = _style;
 @synthesize delegate = _delegate;
+@synthesize previouslySelectedTabButton = _previouslySelectedTabButton;
 
 - (id)initWithFrame:(CGRect)frame style:(JSScrollableTabBarStyle)style
 {
@@ -119,6 +122,11 @@
 	[self layoutTabs];
 }
 
+- (void)clearTabItems
+{
+    [_tabItems removeAllObjects];
+}
+
 - (void)layoutTabs
 {
 	[[_scrollView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
@@ -134,7 +142,7 @@
 		[tabButton setTag:[_tabItems indexOfObject:item]];
 		[tabButton addTarget:self
 					  action:@selector(tabSelected:)
-			forControlEvents:UIControlEventTouchDown];
+			forControlEvents:UIControlEventTouchUpInside];
 		
 		CGRect frame = [tabButton frame];
 		frame.origin.x = currentXposition;
@@ -149,7 +157,7 @@
 	}
     
 	[_scrollView setContentSize:CGSizeMake((overallWidth + padding), self.frame.size.height)];
-	[self selectTabAtIndex:0];
+//	[self selectTabAtIndex:0];
 	[self updateFaders];
 }
 
@@ -179,8 +187,10 @@
 	
 	[tabButton setToggled:YES];
 	
-	[_previouslySelectedTabButton setToggled:NO];
-	_previouslySelectedTabButton = tabButton;
+    if (self.previouslySelectedTabButton) {
+        [self.previouslySelectedTabButton setToggled:NO];
+    }
+    self.previouslySelectedTabButton = tabButton;
 	
 	if ([self.delegate respondsToSelector:@selector(scrollableTabBar:didSelectTabAtIndex:)])
 	{

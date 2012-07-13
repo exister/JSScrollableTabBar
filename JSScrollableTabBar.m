@@ -157,7 +157,10 @@
 	}
     
 	[_scrollView setContentSize:CGSizeMake((overallWidth + padding), self.frame.size.height)];
-//	[self selectTabAtIndex:0];
+    CGRect scrollFrame = [_scrollView frame];
+    scrollFrame.origin.x = 0;
+    scrollFrame.origin.y = 0;
+    [_scrollView scrollRectToVisible:scrollFrame animated:YES];
 	[self updateFaders];
 }
 

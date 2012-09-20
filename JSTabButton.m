@@ -50,7 +50,7 @@
     button.highlightedBg = highlightedButton;
     button.normalBg = normalButton;
     
-	[[button titleLabel] setLineBreakMode:UILineBreakModeTailTruncation];
+	[[button titleLabel] setLineBreakMode:NSLineBreakByTruncatingTail];
 	
 	[button setTitle:string forState:UIControlStateNormal];
 	
